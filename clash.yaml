@@ -1,5 +1,5 @@
 # =====================================================
-# CLASH CONFIGURATION - SYNCHRONIZED WITH VPS
+# CLASH CONFIGURATION - FIX FOR PROOT DEBIAN
 # =====================================================
 
 mixed-port: 7890
@@ -13,23 +13,23 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   nameserver:
-    - 1.1.1.1
     - 8.8.8.8
+    - 1.1.1.1
 
 proxies:
-  - name: "VPS-DEBIAN-PROOT"
+  - name: "Shadowsocks-PRoot"
     type: ss
-    server: 1.2.3.4              # <-- GANTI dengan IP VPS Anda (Contoh: 153.x.x.x)
-    port: 8388                    # <-- Harus sama dengan server_port di VPS
-    cipher: aes-256-gcm           # <-- Harus sama dengan method di VPS
-    password: "password_rahasia_anda" # <-- Harus sama dengan password di VPS
+    server: 1.2.3.4              # <--- GANTI INI DENGAN IP VPS ANDA
+    port: 8388                    # <--- Harus sama dengan server_port di atas
+    cipher: aes-256-gcm           # <--- Harus sama dengan method di atas
+    password: "mysecretpassword"  # <--- Harus sama dengan password di atas
     udp: true
 
 proxy-groups:
   - name: FORCE_OUT
     type: select
     proxies:
-      - "VPS-DEBIAN-PROOT"
+      - "Shadowsocks-PRoot"
 
 rules:
   - MATCH,FORCE_OUT
