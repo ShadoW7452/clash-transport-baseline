@@ -1,52 +1,48 @@
-# ==================================================
+# =====================================================
 # CLASH ENTERPRISE BASELINE – REAL PENTEST READY
-# Mode: FAIL-CLOSED / NO LEAK
-# ==================================================
+# Policy: FAIL-CLOSED / NO LEAK / AUDITABLE
+# Platform: Clash for Android + Termux/Debian
+# =====================================================
 
 mixed-port: 7890
 allow-lan: false
 mode: rule
 log-level: info
-
 ipv6: false
 
-# ================= DNS ============================
+# ================= DNS ===============================
 dns:
   enable: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  ipv6: false
 
-  default-nameserver:
+  # Resolver only (no fallback)
+  nameserver:
     - 1.1.1.1
     - 8.8.8.8
-
-  nameserver:
-    - tls://1.1.1.1:853
-    - tls://8.8.8.8:853
 
   fallback: []
   use-hosts: false
 
-# ================= PROXIES ========================
-# CONTOH: Shadowsocks ke VPS sebenar
+# ================= PROXIES ===========================
+# WAJIB: guna IP VPS sebenar, bukan domain
 proxies:
   - name: VPS-EDGE
     type: ss
-    server: YOUR_REAL_VPS_IP_OR_DOMAIN
+    server: 203.0.113.10          # <-- GANTI DENGAN IP VPS SEBENAR
     port: 443
     cipher: chacha20-ietf-poly1305
-    password: YOUR_REAL_PASSWORD
+    password: GANTI_PASSWORD_SEBENAR
     udp: true
 
-# ================= GROUPS =========================
+# ================= PROXY GROUP =======================
 proxy-groups:
   - name: FORCE_OUT
     type: select
     proxies:
       - VPS-EDGE
 
-# ================= RULES ==========================
+# ================= RULES =============================
+# FAIL-CLOSED: semua trafik WAJIB melalui VPS
 rules:
-  # Semua traffic WAJIB keluar proxy
   - MATCH,FORCE_OUT
