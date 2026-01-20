@@ -1,7 +1,5 @@
 # =====================================================
-# CLASH ENTERPRISE BASELINE – REAL PENTEST READY
-# Policy: FAIL-CLOSED / NO LEAK / AUDITABLE
-# Platform: Clash for Android + Termux/Debian
+# CLASH CONFIGURATION - SYNCHRONIZED WITH VPS
 # =====================================================
 
 mixed-port: 7890
@@ -10,39 +8,29 @@ mode: rule
 log-level: info
 ipv6: false
 
-# ================= DNS ===============================
 dns:
   enable: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-
-  # Resolver only (no fallback)
   nameserver:
     - 1.1.1.1
     - 8.8.8.8
 
-  fallback: []
-  use-hosts: false
-
-# ================= PROXIES ===========================
-# WAJIB: guna IP VPS sebenar, bukan domain
 proxies:
-  - name: VPS-EDGE
+  - name: "VPS-DEBIAN-PROOT"
     type: ss
-    server: 203.0.113.10          # <-- GANTI DENGAN IP VPS SEBENAR
-    port: 443
-    cipher: chacha20-ietf-poly1305
-    password: GANTI_PASSWORD_SEBENAR
+    server: 1.2.3.4              # <-- GANTI dengan IP VPS Anda (Contoh: 153.x.x.x)
+    port: 8388                    # <-- Harus sama dengan server_port di VPS
+    cipher: aes-256-gcm           # <-- Harus sama dengan method di VPS
+    password: "password_rahasia_anda" # <-- Harus sama dengan password di VPS
     udp: true
 
-# ================= PROXY GROUP =======================
 proxy-groups:
   - name: FORCE_OUT
     type: select
     proxies:
-      - VPS-EDGE
+      - "VPS-DEBIAN-PROOT"
 
-# ================= RULES =============================
-# FAIL-CLOSED: semua trafik WAJIB melalui VPS
 rules:
   - MATCH,FORCE_OUT
+  
