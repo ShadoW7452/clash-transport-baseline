@@ -1,0 +1,51 @@
+# ============================================
+# Clash Transport Baseline
+# Mobile-safe configuration for pentesting
+# ============================================
+
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: warning
+
+# ---------------- DNS ------------------------
+dns:
+  enable: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
+  nameserver:
+    - 1.1.1.1
+    - 9.9.9.9
+  fallback:
+    - 8.8.8.8
+    - 1.0.0.1
+  ipv6: false
+
+# ---------------- PROXY ----------------------
+proxies:
+  - name: edge-proxy
+    type: ss
+    server: CHANGE_ME_SERVER
+    port: 443
+    cipher: chacha20-ietf-poly1305
+    password: CHANGE_ME_PASSWORD
+    udp: true
+
+# ---------------- GROUP ----------------------
+proxy-groups:
+  - name: OUTBOUND
+    type: select
+    proxies:
+      - edge-proxy
+      - DIRECT
+
+# ---------------- RULES ----------------------
+rules:
+  # Example target (replace later)
+  - DOMAIN-SUFFIX,example.com,OUTBOUND
+
+  # Default safe behavior
+  - MATCH,DIRECT
