@@ -1,36 +1,46 @@
 # =====================================================
-# CLASH CONFIGURATION - FIX FOR PROOT DEBIAN
+# CLASH ENTERPRISE BASELINE - ANTI-LEAK & HIGH PRIVACY
 # =====================================================
 
 mixed-port: 7890
 allow-lan: false
 mode: rule
 log-level: info
-ipv6: false
+ipv6: false              # WAJIB FALSE: Mencegah kebocoran IP asli Malaysia
+global-client-fingerprint: chrome
 
+# ================= DNS (ENCRYPTED) ===================
 dns:
   enable: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  listen: 0.0.0.0:53
+  default-nameserver: [8.8.8.8, 1.1.1.1]
   nameserver:
-    - 8.8.8.8
-    - 1.1.1.1
+    - https://dns.google/dns-query
+    - https://cloudflare-dns.com/dns-query
 
+# ================= PROXIES ===========================
 proxies:
-  - name: "Shadowsocks-PRoot"
+  - name: "ENTERPRISE-NODE-01"
     type: ss
-    server: 1.2.3.4              # <--- GANTI INI DENGAN IP VPS ANDA
-    port: 8388                    # <--- Harus sama dengan server_port di atas
-    cipher: aes-256-gcm           # <--- Harus sama dengan method di atas
-    password: "mysecretpassword"  # <--- Harus sama dengan password di atas
+    server: 1.2.3.4              # <-- GANTI DENGAN IP VPS ANDA
+    port: 8443                    # <-- Sesuaikan dengan server_port di atas
+    cipher: aes-256-gcm
+    password: "GANTI_PASSWORD_RAHASIA_ANDA"
     udp: true
 
+# ================= PROXY GROUP =======================
 proxy-groups:
-  - name: FORCE_OUT
+  - name: 🛡️-GATEWAY-UTAMA
     type: select
     proxies:
-      - "Shadowsocks-PRoot"
+      - "ENTERPRISE-NODE-01"
 
+# ================= RULES (FAIL-CLOSED) ===============
 rules:
-  - MATCH,FORCE_OUT
+  # Memastikan trafik sistem tetap aman
+  - DOMAIN-SUFFIX,google.com,🛡️-GATEWAY-UTAMA
+  # Sisanya, WAJIB lewat VPS
+  - MATCH,🛡️-GATEWAY-UTAMA
   
