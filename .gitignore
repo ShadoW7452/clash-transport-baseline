@@ -1,0 +1,58 @@
+# -----------------------
+# Logs
+# -----------------------
+*.log
+*.log.*
+
+# -----------------------
+# Backup & temp files
+# -----------------------
+*.bak
+*.old
+*.tmp
+*.swp
+*.swo
+
+# -----------------------
+# Environment / secrets
+# -----------------------
+*.env
+.env.*
+credentials.txt
+*.key
+*.pem
+
+# -----------------------
+# OS / Editor noise
+# -----------------------
+.DS_Store
+Thumbs.db
+*.idea/
+*.vscode/
+*.iml
+
+# -----------------------
+# Android Studio artifacts
+# -----------------------
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+.gradle/
+local.properties
+*.apk
+*.ap_ 
+*.keystore
+
+# -----------------------
+# Clash runtime artifacts
+# -----------------------
+cache.db
+profiles.yaml
+
+# -----------------------
+# Termux / shell runtime
+# -----------------------
+*.bash_history
+*.zsh_history
+*.termux/
