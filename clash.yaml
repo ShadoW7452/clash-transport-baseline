@@ -1,13 +1,12 @@
 # ============================================
-# Clash Transport Baseline
-# Mobile-safe configuration for pentesting
-# Scope: Transport & routing only (NOT WAF bypass)
+# Clash Transport Baseline (FIXED)
+# Mobile + Debian Proot + Pentest Safe
 # ============================================
 
 mixed-port: 7890
 allow-lan: false
 mode: rule
-log-level: warning
+log-level: info
 
 # ---------------- DNS ------------------------
 dns:
@@ -26,11 +25,10 @@ dns:
   ipv6: false
 
 # ---------------- PROXIES --------------------
-# Replace CHANGE_ME_* with your own values
 proxies:
   - name: edge-01
     type: ss
-    server: CHANGE_ME_EDGE1_IP_OR_DOMAIN
+    server: CHANGE_ME_EDGE1_IP
     port: 443
     cipher: chacha20-ietf-poly1305
     password: CHANGE_ME_PASSWORD1
@@ -38,14 +36,13 @@ proxies:
 
   - name: edge-02
     type: ss
-    server: CHANGE_ME_EDGE2_IP_OR_DOMAIN
+    server: CHANGE_ME_EDGE2_IP
     port: 443
     cipher: chacha20-ietf-poly1305
     password: CHANGE_ME_PASSWORD2
     udp: true
 
 # ---------------- GROUPS ---------------------
-# Automatic failover for mobile stability
 proxy-groups:
   - name: OUTBOUND
     type: fallback
@@ -57,8 +54,8 @@ proxy-groups:
 
 # ---------------- RULES ----------------------
 rules:
-  # Example in-scope target (edit/remove as needed)
-  - DOMAIN-SUFFIX,example.com,OUTBOUND
+  # OPTIONAL: hadkan target tertentu
+  # - DOMAIN-SUFFIX,example.com,OUTBOUND
 
-  # Default safe behavior (Android stable)
-  - MATCH,DIRECT
+  # DEFAULT: SEMUA TRAFIK KE PROXY
+  - MATCH,OUTBOUND
