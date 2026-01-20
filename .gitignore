@@ -56,3 +56,7 @@ profiles.yaml
 *.bash_history
 *.zsh_history
 *.termux/
+# -----------------------
+# Private operational configs (DO NOT COMMIT)
+# -----------------------
+private/
