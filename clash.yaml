@@ -1,16 +1,16 @@
-# =====================================================
-# Clash Force-Proxy Test Profile (FINAL)
-# Purpose : Verify real egress via proxy
-# Mode    : Hard force (NO DIRECT)
-# =====================================================
+# ==================================================
+# CLASH ENTERPRISE BASELINE – REAL PENTEST READY
+# Mode: FAIL-CLOSED / NO LEAK
+# ==================================================
 
-# ---------------- Core ----------------
 mixed-port: 7890
 allow-lan: false
 mode: rule
 log-level: info
 
-# ---------------- DNS -----------------
+ipv6: false
+
+# ================= DNS ============================
 dns:
   enable: true
   enhanced-mode: fake-ip
@@ -22,30 +22,31 @@ dns:
     - 8.8.8.8
 
   nameserver:
-    - 1.1.1.1
-    - 9.9.9.9
-    - 8.8.4.4
-    - 1.0.0.1
+    - tls://1.1.1.1:853
+    - tls://8.8.8.8:853
 
-# ---------------- Proxies -------------
-# WAJIB ganti dengan nilai sebenar
+  fallback: []
+  use-hosts: false
+
+# ================= PROXIES ========================
+# CONTOH: Shadowsocks ke VPS sebenar
 proxies:
-  - name: edge-01
+  - name: VPS-EDGE
     type: ss
-    server: REAL_VPS_IP_OR_DOMAIN
+    server: YOUR_REAL_VPS_IP_OR_DOMAIN
     port: 443
     cipher: chacha20-ietf-poly1305
-    password: REAL_PASSWORD
+    password: YOUR_REAL_PASSWORD
     udp: true
 
-# ---------------- Groups --------------
+# ================= GROUPS =========================
 proxy-groups:
   - name: FORCE_OUT
     type: select
     proxies:
-      - edge-01
+      - VPS-EDGE
 
-# ---------------- Rules ---------------
+# ================= RULES ==========================
 rules:
-  # FORCE SEMUA TRAFFIC MELALUI PROXY
+  # Semua traffic WAJIB keluar proxy
   - MATCH,FORCE_OUT
